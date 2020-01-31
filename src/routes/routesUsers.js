@@ -1,11 +1,11 @@
-// ## TRANSACTIONS ## //
+// ## USERS ## //
 
 import { Router } from "express";
 
 const routes = Router();
 
 routes.get("/", async (req, res) => {
-  res.send("Transactions GET");
+  res.send("Users GET");
 });
 
 export default routes;

@@ -1,5 +1,10 @@
 import express from "express";
 import cors from "cors";
+import variables from "dotenv";
+
+const vars = variables.config({
+  path: ".env"
+});
 
 class AppController {
   constructor() {

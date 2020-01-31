@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "sucrase-node ./src/server.js",
-    "dev": "nodemon ./src/server.js --ignore test"
+    "dev": "nodemon ./src/server.js --ignore test",
+    "sequelize-create": "sequelize db:create"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,13 @@
   "homepage": "https://github.com/GuilhermeSantanaAndrade/PaymentServiceProvider#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.2",
+    "pg": "^7.18.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.3",
+    "sequelize-cli": "^5.5.1",
     "sucrase": "^3.12.1"
   }
 }
