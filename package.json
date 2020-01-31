@@ -9,7 +9,8 @@
     "start": "sucrase-node ./src/server.js",
     "dev": "nodemon ./src/server.js --ignore test",
     "sequelize-create": "sequelize db:create",
-    "sequelize-migration-create": "sequelize migration:create --name=%1"
+    "sequelize-migrate": "sequelize db:migrate",
+    "sequelize-migrate:undo": "sequelize db:migrate:undo"
   },
   "repository": {
     "type": "git",

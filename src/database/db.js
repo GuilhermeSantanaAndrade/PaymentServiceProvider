@@ -1,4 +1,4 @@
-import Sequelize from "./node_modules/sequelize";
+import Sequelize from "sequelize";
 import dbConfig from "./config.js";
 
 const connection = new Sequelize(dbConfig);

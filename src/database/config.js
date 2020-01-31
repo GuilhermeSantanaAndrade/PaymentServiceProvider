@@ -1,5 +1,5 @@
 const envs = require("dotenv").config({
-  path: ".env.production"
+  path: ".env"
 });
 
 console.log(envs);
