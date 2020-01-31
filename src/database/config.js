@@ -1,6 +1,7 @@
 module.exports = {
   dialect: "postgres",
   host: "rajje.db.elephantsql.com",
+  port: 5432,
   username: "upzcptes",
   password: "3MSHxup4ogEVkACR4Jwa7ohs56mI6eug",
   database: "upzcptes",
