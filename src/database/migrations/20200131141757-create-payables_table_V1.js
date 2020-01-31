@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("users", {
+    return queryInterface.createTable("payables", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -17,29 +17,41 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
-      id_ambient: {
+      id_transaction: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: "ambients", key: "id" },
+        references: { model: "transactions", key: "id" },
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
       },
-      username: {
-        type: Sequelize.STRING(25),
+      date_to_refund_transaction: {
+        type: Sequelize.DATEONLY,
         allowNull: false
       },
-      encrypted_psw: {
-        type: Sequelize.STRING(80),
+      status: {
+        type: Sequelize.STRING(10),
+        default: false
+      },
+      gross_value: {
+        type: Sequelize.DOUBLE,
+        default: false
+      },
+      fee_percent: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
-      user_admin: {
-        type: Sequelize.BOOLEAN,
+      fee_value: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      net_value: {
+        type: Sequelize.DOUBLE,
         default: false
       }
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("users");
+    return queryInterface.dropTable("payables");
   }
 };
