@@ -14,6 +14,14 @@ routes.get("/", async (req, res) => {
   }
 });
 
+routes.get("/:id?", async (req, res) => {
+  try {
+    await ControllerAmbient.findOne(req, res);
+  } catch (err) {
+    throwError(res, err);
+  }
+});
+
 routes.post("/", async (req, res) => {
   try {
     await ControllerAmbient.create(req, res);

@@ -6,7 +6,7 @@ module.exports = {
       {
         createdAt: new Date(),
         updatedAt: new Date(),
-        name: "PAGAR.ME"
+        name: "ROOT"
       }
     ]);
   },

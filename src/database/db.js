@@ -7,4 +7,7 @@ const connection = new Sequelize(dbConfig);
 User.init(connection);
 Ambient.init(connection);
 
+//Ambient.associate(connection.models);
+//User.associate(connection.models);
+
 export default connection;

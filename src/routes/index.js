@@ -9,7 +9,6 @@ const mainRoutes = Router();
 mainRoutes.use("/transactions", routesTransactions);
 mainRoutes.use("/payables", routesPayables);
 mainRoutes.use("/users", routesUsers);
-mainRoutes.use("/configs", routesUsers);
 mainRoutes.use("/ambients", routesAmbients);
 
 export default mainRoutes;

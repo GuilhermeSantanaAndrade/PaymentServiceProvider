@@ -1,18 +1,31 @@
-import Ambient from "../models/Ambient";
+import ambient from "../models/Ambient";
 import { prepareSuccess } from "../utils/responses_struct";
 
 class ControllerAmbient {
   findAll = async (req, res) => {
-    const finds = await Ambient.findAll();
+    const finds = await ambient.findAll();
 
-    const result = response_struct;
-    result.data = finds;
+    const result = prepareSuccess(finds);
+    res.json(result);
+  };
+
+  findOne = async (req, res) => {
+    const query = req.query.id;
+    const params = req.params.id;
+
+    const finds = await ambient.findOne({
+      where: {
+        id: query || params
+      }
+    });
+
+    const result = prepareSuccess(finds);
     res.json(result);
   };
 
   create = async (req, res) => {
     const { name } = req.body;
-    let find = await Ambient.findAll({
+    let find = await ambient.findAll({
       where: {
         name: name
       }
@@ -20,7 +33,7 @@ class ControllerAmbient {
 
     let inserted = undefined;
     if (!find.length) {
-      inserted = await Ambient.create({
+      inserted = await ambient.create({
         name: name
       });
       find = undefined;

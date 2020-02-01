@@ -1,6 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 
-class User extends Model {
+class user extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -8,7 +8,8 @@ class User extends Model {
         updatedAt: DataTypes.DATE,
         username: DataTypes.STRING,
         encrypted_psw: DataTypes.STRING,
-        user_admin: DataTypes.BOOLEAN
+        user_admin: DataTypes.BOOLEAN,
+        id_ambient: DataTypes.INTEGER
       },
       {
         sequelize
@@ -21,4 +22,4 @@ class User extends Model {
   }
 }
 
-export default User;
+export default user;
