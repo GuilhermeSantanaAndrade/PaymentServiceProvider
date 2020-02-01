@@ -13,13 +13,13 @@ class ControllerAmbient {
     const query = req.query.id;
     const params = req.params.id;
 
-    const finds = await ambient.findOne({
+    const find = await ambient.findOne({
       where: {
         id: query || params
       }
     });
 
-    const result = prepareSuccess(finds);
+    const result = prepareSuccess(find);
     res.json(result);
   };
 

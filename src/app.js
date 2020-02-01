@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import variables from "dotenv";
 
+global.SALT_KEY = "f6c845142-6542-4cA3-90f3-65e87e6761ec";
 const vars = variables.config({
   path: ".env"
 });
@@ -19,7 +20,6 @@ class AppController {
   }
 
   routes() {
-    // importa o arquivo principal das rotas
     import routes from "./routes/index";
     this.express.use(routes);
   }

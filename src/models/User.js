@@ -16,10 +16,6 @@ class user extends Model {
       }
     );
   }
-
-  static associate(models) {
-    this.belongsTo(models.Ambient, { foreignKey: id_ambient, as: "ambient" });
-  }
 }
 
 export default user;
