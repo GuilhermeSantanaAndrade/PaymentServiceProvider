@@ -15,7 +15,7 @@ routes.get("/", authService.authorizeOnlyAdmin, async (req, res, next) => {
   }
 });
 
-routes.get("/:id?", authService.authorizeOnlyAdmin, async (req, res, next) => {
+routes.get("/:id", authService.authorizeOnlyAdmin, async (req, res, next) => {
   try {
     await ControllerAmbient.findOne(req, res);
   } catch (err) {

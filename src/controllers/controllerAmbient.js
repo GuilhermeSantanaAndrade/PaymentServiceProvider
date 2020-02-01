@@ -1,11 +1,11 @@
 import ambient from "../models/Ambient";
-import { prepareSuccess } from "../utils/responses_struct";
+import { prepareSuccess200 } from "../utils/responses_struct";
 
 class ControllerAmbient {
   findAll = async (req, res) => {
     const finds = await ambient.findAll();
 
-    const result = prepareSuccess(finds);
+    const result = prepareSuccess200(finds);
     res.json(result);
   };
 
@@ -19,7 +19,7 @@ class ControllerAmbient {
       }
     });
 
-    const result = prepareSuccess(find);
+    const result = prepareSuccess200(find);
     res.json(result);
   };
 
@@ -39,7 +39,7 @@ class ControllerAmbient {
       find = undefined;
     }
 
-    const result = prepareSuccess(find || inserted);
+    const result = prepareSuccess200(find || inserted);
 
     res.json(result);
   };

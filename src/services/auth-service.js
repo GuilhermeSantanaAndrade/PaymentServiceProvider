@@ -30,7 +30,7 @@ const processAuthorize = async (req, res, next, onlyAdmin) => {
         res.status(401).json({ status: 401, message: "Token inválido." });
       } else {
         if (onlyAdmin && !decoded.user_admin) {
-          res.status(401).json({ status: 401, message: "Acesso Restrito[2]." });
+          res.status(403).json({ status: 403, message: "Acesso Restrito[2]." });
           return;
         }
 
@@ -38,4 +38,14 @@ const processAuthorize = async (req, res, next, onlyAdmin) => {
       }
     });
   }
+};
+
+exports.encodeToBase64 = async pwd => {
+  const buff = new Buffer(pwd);
+  return buff.toString("base64");
+};
+
+exports.decodeBase64 = async base64 => {
+  const buff = new Buffer(base64, "base64");
+  return buff.toString("ascii");
 };
