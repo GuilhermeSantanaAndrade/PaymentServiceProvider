@@ -6,8 +6,8 @@ class user extends Model {
       {
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
-        username: DataTypes.STRING,
-        encrypted_psw: DataTypes.STRING,
+        username: DataTypes.STRING(25),
+        encrypted_psw: DataTypes.STRING(80),
         user_admin: DataTypes.BOOLEAN,
         id_ambient: DataTypes.INTEGER
       },

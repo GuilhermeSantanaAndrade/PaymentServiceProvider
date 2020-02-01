@@ -30,7 +30,7 @@ module.exports = {
         default: false
       },
       fee: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
         default: false
       }
     });

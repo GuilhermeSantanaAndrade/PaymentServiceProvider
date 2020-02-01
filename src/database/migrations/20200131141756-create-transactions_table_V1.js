@@ -17,6 +17,11 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
+      guid: {
+        type: Sequelize.STRING(60),
+        default: false,
+        allowNull: false
+      },
       service_id: {
         type: Sequelize.INTEGER,
         allowNull: false

@@ -1,7 +1,7 @@
-// ## TRANSACTIONS ## //
+// ## PAYMENT_TYPES ## //
 
 import { Router } from "express";
-import ControllerTransaction from "../controllers/controllerTransaction";
+import ControllerPaymentType from "../controllers/controllerPaymentType";
 import { throwError } from "../utils/responses_struct";
 import authService from "../services/auth-service";
 
@@ -9,23 +9,23 @@ const routes = Router();
 
 routes.get("/", authService.authorizeOnlyAdmin, async (req, res, next) => {
   try {
-    await ControllerTransaction.findAll(req, res);
+    await ControllerPaymentType.findAll(req, res);
   } catch (err) {
     throwError(res, err);
   }
 });
 
-routes.get("/:guid", authService.authorize, async (req, res, next) => {
+routes.get("/:id", authService.authorizeOnlyAdmin, async (req, res, next) => {
   try {
-    await ControllerTransaction.findOne(req, res);
+    await ControllerPaymentType.findOne(req, res);
   } catch (err) {
     throwError(res, err);
   }
 });
 
-routes.post("/", authService.authorize, async (req, res, next) => {
+routes.post("/", authService.authorizeOnlyAdmin, async (req, res, next) => {
   try {
-    await ControllerTransaction.create(req, res);
+    await ControllerPaymentType.create(req, res);
   } catch (err) {
     throwError(res, err);
   }

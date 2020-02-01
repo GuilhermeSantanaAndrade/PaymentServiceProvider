@@ -29,13 +29,13 @@ class ControllerUser {
   create = async (req, res) => {
     let { username, key, user_admin, ambient_name } = req.body;
 
-    let find = await user.findAll({
+    let find = await user.findOne({
       where: {
         username: username
       }
     });
 
-    if (find.length) {
+    if (find) {
       throwRefuse401(res, "Usuário já existe.");
       return;
     }
@@ -76,7 +76,7 @@ class ControllerUser {
       }
     });
 
-    if (!find || find.length) {
+    if (!find) {
       throwRefuse401(res, "Usuário ou Senha inválidos.");
       return;
     }

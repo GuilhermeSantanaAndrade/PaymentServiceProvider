@@ -1,5 +1,5 @@
 import ambient from "../models/Ambient";
-import { prepareSuccess200 } from "../utils/responses_struct";
+import { prepareSuccess200, throwRefuse401 } from "../utils/responses_struct";
 
 class ControllerAmbient {
   findAll = async (req, res) => {
@@ -25,21 +25,22 @@ class ControllerAmbient {
 
   create = async (req, res) => {
     const { name } = req.body;
-    let find = await ambient.findAll({
+    let find = await ambient.findOne({
       where: {
         name: name
       }
     });
 
-    let inserted = undefined;
-    if (!find.length) {
-      inserted = await ambient.create({
-        name: name
-      });
-      find = undefined;
+    if (find) {
+      throwRefuse401(res, `Já existe um ambiente com o nome "${name}".`);
+      return;
     }
 
-    const result = prepareSuccess200(find || inserted);
+    const inserted = await ambient.create({
+      name: name
+    });
+
+    const result = prepareSuccess200(inserted);
 
     res.json(result);
   };
