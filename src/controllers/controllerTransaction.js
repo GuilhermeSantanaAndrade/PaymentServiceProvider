@@ -38,6 +38,7 @@ class ControllerTransaction {
       description,
       str_code_payment,
       card_number,
+      owner_name_card,
       dueDate_card,
       cvv_card
     } = req.body;
@@ -49,6 +50,7 @@ class ControllerTransaction {
     card_number = await authService.decodeBase64(card_number);
     dueDate_card = await authService.decodeBase64(dueDate_card);
     cvv_card = await authService.decodeBase64(cvv_card);
+    owner_name_card = await authService.decodeBase64(owner_name_card);
 
     const payment = await payment_type.findOne({
       where: {
@@ -81,6 +83,7 @@ class ControllerTransaction {
       description,
       str_code_payment === "debit_card" ? "debit" : "credit",
       card_number,
+      owner_name_card,
       dueDate_card,
       cvv_card
     );
@@ -94,6 +97,7 @@ class ControllerTransaction {
       description: description,
       id_payment: payment.id,
       sufix_card_number: card_number.substr(card_number.length - 4),
+      owner_name_card: owner_name_card,
       dueDate_card: dueDate_card,
       cvv_card: cvv_card
     });
@@ -111,7 +115,7 @@ class ControllerTransaction {
       transactionGuid: guid,
       payableGuid: resPayable.guid,
       date_to_refund_transaction: resPayable.date_to_refund_transaction,
-      status: resPayable.status,
+      status_refund: resPayable.status,
       fee_percent: resPayable.fee_percent,
       fee_value: resPayable.fee_value,
       net_value: resPayable.net_Value

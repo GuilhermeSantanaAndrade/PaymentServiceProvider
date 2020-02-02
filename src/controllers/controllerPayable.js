@@ -4,6 +4,7 @@ import payment_type from "../models/PaymentType";
 import { prepareSuccess200, throwRefuse401 } from "../utils/responses_struct";
 import uuidv4 from "uuid/v4";
 import controllerPaid from "./controllerPaid";
+import moment from "moment";
 
 class ControllerPayable {
   findAll = async (req, res) => {
@@ -69,8 +70,15 @@ class ControllerPayable {
       return;
     }
 
-    const today = new Date().setHours(0, 0, 0, 0);
-    const dateToRefundTransaction = today + payment.days_refund;
+    const today = moment
+
+      .tz(new Date().setHours(0, 0, 0, 0), "America/Sao_Paulo")
+      .format("YYYY/MM/DD HH:mm:mm");
+    const dateToRefundTransaction = moment
+      .tz(new Date().setHours(0, 0, 0, 0), "America/Sao_Paulo")
+      .add(payment.days_refund, "days")
+      .format("YYYY/MM/DD HH:mm:mm");
+
     const fee_value = (payment.fee / 100) * gross_value;
 
     const newPayable = await payable.create({
@@ -86,21 +94,17 @@ class ControllerPayable {
 
     // checks the need to pay now
     const checkPayNeed = await controllerPaid.checkPayDate({
-      id_payable: newPayable.id,
-      today,
-      paid_value: newPayable.net_value
+      id_payable: newPayable.id
     });
 
     if (checkPayNeed.action === global.NEED_TO_PAY) {
       const newPaid = await controllerPaid.create({
         id_payable: newPayable.id,
-        today,
+        paidDate: today,
         paid_value: newPayable.net_value
       });
 
-      if (newPaid.status === global.PAID) {
-        newPayable.status === global.PAID;
-      }
+      newPayable.status = newPaid.data.status;
     }
 
     const result = prepareSuccess200(newPayable);

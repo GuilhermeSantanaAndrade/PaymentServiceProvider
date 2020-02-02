@@ -6,6 +6,7 @@ exports.authorize = async (
   description,
   debit_credit,
   card_number,
+  owner_name_card,
   dueDate_card,
   cvv_card
 ) => {

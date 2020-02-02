@@ -2,7 +2,7 @@ import paid from "../models/Paid";
 import payable from "../models/Payable";
 import { prepareSuccess200, throwRefuse401 } from "../utils/responses_struct";
 import uuidv4 from "uuid/v4";
-import authService from "../services/auth-service";
+import moment from "moment";
 
 class ControllerPaid {
   findAll = async (req, res) => {
@@ -37,11 +37,8 @@ class ControllerPaid {
     res.json(result);
   };
 
-  create = async ({ id_payable, paid_date, paid_value }) => {
+  create = async ({ id_payable, paidDate, paid_value }) => {
     const guid = uuidv4();
-  };
-
-  checkPayDate = async ({ id_payable, paid_date, paid_value }) => {
     const findPayable = await payable.findOne({
       where: {
         id: id_payable
@@ -53,20 +50,57 @@ class ControllerPaid {
       return;
     }
 
-    const today = new Date().setHours(0, 0, 0, 0);
-    const dateToRefundTransaction = new Date(
-      findPayable.date_to_refund_transaction
+    const date = moment(paidDate).format("YYYY-MM-DD");
+    const newPaid = await paid.create({
+      guid: guid,
+      id_payable: id_payable,
+      paid_date: date,
+      paid_value: paid_value
+    });
+
+    const status =
+      paid_value >= findPayable.net_value ? global.PAID : global.WAITING_FUNDS;
+    newPaid.status = status;
+    await payable.update(
+      {
+        status: status
+      },
+      {
+        where: {
+          id: findPayable.id
+        }
+      }
     );
 
-    console.log(dateToRefundTransaction);
-    console.log(new Date(dateToRefundTransaction).toString());
+    const result = prepareSuccess200(newPaid);
+    return result;
+  };
+
+  checkPayDate = async ({ id_payable }) => {
+    const findPayable = await payable.findOne({
+      where: {
+        id: id_payable
+      }
+    });
+
+    if (!findPayable) {
+      throwRefuse401(res, `Não foi encontrado Pagável com id "${id_payable}".`);
+      return;
+    }
+
+    const today = moment
+      .tz(new Date().setHours(0, 0, 0, 0), "America/Sao_Paulo")
+      .valueOf();
+    const dateToRefundTransaction = moment
+      .tz(findPayable.date_to_refund_transaction, "America/Sao_Paulo")
+      .valueOf();
 
     let action = "";
     if (findPayable.status === global.PAID) {
       action = global.PAID;
     } else if (findPayable.status === global.WAITING_FUNDS) {
       if (today >= dateToRefundTransaction) {
-        action = global.NEED_TO_REFUND;
+        action = global.NEED_TO_PAY;
       } else {
         action = global.NEED_TO_WAIT_MORE;
       }
@@ -76,7 +110,9 @@ class ControllerPaid {
 
     return {
       action: action,
-      dateToRefundTransaction: dateToRefundTransaction
+      dateToRefundTransaction: moment(dateToRefundTransaction).format(
+        "YYYY-MM-DD"
+      )
     };
   };
 }

@@ -14,6 +14,7 @@ class transaction extends Model {
         description: DataTypes.STRING(100),
         id_payment: DataTypes.INTEGER,
         sufix_card_number: DataTypes.STRING(4),
+        owner_name_card: DataTypes.STRING(40),
         dueDate_card: DataTypes.STRING(5),
         cvv_card: DataTypes.STRING(3)
       },

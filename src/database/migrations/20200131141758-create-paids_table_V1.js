@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.DATEONLY,
         allowNull: false
       },
-      paidValue: {
+      paid_value: {
         type: Sequelize.DOUBLE,
         allowNull: false
       }

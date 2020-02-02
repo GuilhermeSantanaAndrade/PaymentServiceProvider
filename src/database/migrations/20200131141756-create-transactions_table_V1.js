@@ -56,9 +56,12 @@ module.exports = {
         type: Sequelize.STRING(4),
         allowNull: false
       },
+      owner_name_card: {
+        type: Sequelize.STRING(40),
+        allowNull: false
+      },
       dueDate_card: {
-        //MM/YY
-        type: Sequelize.STRING(5),
+        type: Sequelize.STRING(5), //MM/YY
         allowNull: false
       },
       cvv_card: {
