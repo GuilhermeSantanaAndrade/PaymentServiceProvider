@@ -17,6 +17,11 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
+      guid: {
+        type: Sequelize.STRING(60),
+        default: false,
+        allowNull: false
+      },
       id_payable: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -24,8 +29,12 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
       },
-      payment_date: {
+      paid_date: {
         type: Sequelize.DATEONLY,
+        allowNull: false
+      },
+      paidValue: {
+        type: Sequelize.DOUBLE,
         allowNull: false
       }
     });

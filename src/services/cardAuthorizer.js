@@ -1,6 +1,6 @@
 const randomer = require("../utils/functions.js");
 
-exports.authorizeCard = async (
+exports.authorize = async (
   service_id,
   value,
   description,
@@ -11,10 +11,10 @@ exports.authorizeCard = async (
 ) => {
   const nsu = randomer.minMaxRandom(100, 999999);
   const aut = randomer.minMaxRandom(1000, 9999999);
-  return {
+  return Promise.resolve({
     status: 200,
     message: "Authorized",
     nsu: nsu,
     aut: aut
-  };
+  });
 };

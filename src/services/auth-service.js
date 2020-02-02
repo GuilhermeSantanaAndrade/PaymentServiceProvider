@@ -27,7 +27,9 @@ const processAuthorize = async (req, res, next, onlyAdmin) => {
   } else {
     jwt.verify(token, global.SALT_KEY, function(error, decoded) {
       if (error) {
-        res.status(401).json({ status: 401, message: "Token inválido." });
+        res
+          .status(401)
+          .json({ status: 401, message: "Token inválido ou expirado." });
       } else {
         if (onlyAdmin && !decoded.user_admin) {
           res.status(403).json({ status: 403, message: "Acesso Restrito[2]." });

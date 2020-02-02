@@ -17,6 +17,11 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
+      guid: {
+        type: Sequelize.STRING(60),
+        default: false,
+        allowNull: false
+      },
       id_transaction: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -29,7 +34,7 @@ module.exports = {
         allowNull: false
       },
       status: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.STRING(20),
         default: false
       },
       gross_value: {
@@ -37,16 +42,16 @@ module.exports = {
         default: false
       },
       fee_percent: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
         allowNull: false
       },
       fee_value: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DOUBLE,
         allowNull: false
       },
       net_value: {
         type: Sequelize.DOUBLE,
-        default: false
+        allowNull: false
       }
     });
   },
