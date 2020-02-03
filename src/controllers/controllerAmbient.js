@@ -24,7 +24,7 @@ class ControllerAmbient {
   };
 
   create = async (req, res) => {
-    const { name } = req.body;
+    const { name, antecipate_fee } = req.body;
     let find = await ambient.findOne({
       where: {
         name: name
@@ -37,7 +37,8 @@ class ControllerAmbient {
     }
 
     const inserted = await ambient.create({
-      name: name
+      name: name,
+      antecipate_fee: antecipate_fee
     });
 
     const result = prepareSuccess200(inserted);

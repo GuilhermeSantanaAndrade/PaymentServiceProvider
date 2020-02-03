@@ -20,6 +20,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      antecipate_fee: {
+        type: Sequelize.DOUBLE,
+        default: 1
       }
     });
   },

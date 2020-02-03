@@ -15,4 +15,5 @@ Transaction.init(connection);
 Payable.init(connection);
 Paid.init(connection);
 
+global.dbConnection = connection;
 export default connection;

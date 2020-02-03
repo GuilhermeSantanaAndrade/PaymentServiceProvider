@@ -6,7 +6,8 @@ class ambient extends Model {
       {
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
-        name: DataTypes.STRING(255)
+        name: DataTypes.STRING(255),
+        antecipate_fee: DataTypes.DOUBLE
       },
       {
         sequelize

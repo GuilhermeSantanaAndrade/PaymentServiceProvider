@@ -8,8 +8,33 @@ import cardAuthorizer from "../services/cardAuthorizer";
 import authService from "../services/auth-service";
 
 class ControllerTransaction {
-  findAll = async (req, res) => {
+  findAll = async (req, res, userInfos) => {
     const finds = await transaction.findAll();
+
+    const result = prepareSuccess200(finds);
+    res.json(result);
+  };
+
+  findMany = async (req, res, usernameToFilter) => {
+    const userInformed = await user.findOne({
+      where: {
+        username: usernameToFilter
+      }
+    });
+
+    if (!userInformed) {
+      throwRefuse401(
+        res,
+        `Não foi encontrado Usuário com o nome "${usernameToFilter}".`
+      );
+      return;
+    }
+
+    const finds = await transaction.findAll({
+      where: {
+        id_user: userInformed.id
+      }
+    });
 
     const result = prepareSuccess200(finds);
     res.json(result);

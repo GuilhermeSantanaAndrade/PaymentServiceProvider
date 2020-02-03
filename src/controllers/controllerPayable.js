@@ -1,16 +1,90 @@
 import transaction from "../models/Transaction";
 import payable from "../models/Payable";
+import controllerPaid from "../controllers/controllerPaid";
+import user from "../models/User";
 import payment_type from "../models/PaymentType";
 import { prepareSuccess200, throwRefuse401 } from "../utils/responses_struct";
 import uuidv4 from "uuid/v4";
 import controllerPaid from "./controllerPaid";
 import moment from "moment";
+import Sequelize from "sequelize";
 
 class ControllerPayable {
   findAll = async (req, res) => {
     const finds = await payable.findAll();
 
     const result = prepareSuccess200(finds);
+    res.json(result);
+  };
+
+  findMany = async (req, res, usernameToFilter) => {
+    const userInformed = await user.findOne({
+      where: {
+        username: usernameToFilter
+      }
+    });
+
+    if (!userInformed) {
+      throwRefuse401(
+        res,
+        `Não foi encontrado Usuário com o nome "${usernameToFilter}".`
+      );
+      return;
+    }
+
+    const finds = await global.dbConnection.query(
+      `SELECT 
+      "payable".*
+     FROM "payables" AS "payable" 
+     INNER JOIN "transactions" as "transaction" ON "transaction"."id" = "payable"."id_transaction"
+     WHERE "transaction"."id_user" = ${userInformed.id}`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+
+    const result = prepareSuccess200(finds);
+    res.json(result);
+  };
+
+  findAvaible_x_waiting = async (req, res, usernameToFilter) => {
+    const userInformed = await user.findOne({
+      where: {
+        username: usernameToFilter
+      }
+    });
+
+    if (!userInformed) {
+      throwRefuse401(
+        res,
+        `Não foi encontrado Usuário com o nome "${usernameToFilter}".`
+      );
+      return;
+    }
+
+    const finds = await global.dbConnection.query(
+      `SELECT 
+      "payable"."id", 
+      "payable"."status", 
+      "payable"."net_value"
+     FROM "payables" AS "payable" 
+     INNER JOIN "transactions" as "transaction" ON "transaction"."id" = "payable"."id_transaction"
+     WHERE "transaction"."id_user" = ${userInformed.id}`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+
+    const paids = finds
+      .filter(
+        item =>
+          item.status === global.PAID || item.status === global.PAID_ANTECIPATE
+      )
+      .reduce((sum, item) => sum + item.net_value, 0);
+    const waiting_funds = finds
+      .filter(item => item.status === global.WAITING_FUNDS)
+      .reduce((sum, item) => sum + item.net_value, 0);
+
+    const result = prepareSuccess200({
+      avaible: paids,
+      waiting_funds: waiting_funds
+    });
     res.json(result);
   };
 
@@ -109,6 +183,93 @@ class ControllerPayable {
 
     const result = prepareSuccess200(newPayable);
     return result;
+  };
+
+  checkRefunds = async () => {
+    const now = moment
+      .tz(new Date(), "America/Sao_Paulo")
+      .format("YYYY/MM/DD HH:mm:mm");
+
+    const Op = Sequelize.Op;
+    let refundsList = await payable.findAll({
+      where: {
+        status: global.WAITING_FUNDS,
+        date_to_refund_transaction: {
+          [Op.lte]: now
+        }
+      }
+    });
+
+    refundsList = refundsList.map(item => {
+      return {
+        id: item.id,
+        date_to_refund_transaction: item.date_to_refund_transaction,
+        value: item.net_value
+      };
+    });
+
+    const result = prepareSuccess200(refundsList);
+    return result;
+  };
+
+  antecipate = async (req, res) => {
+    const guid = req.params.guid;
+    const now = moment
+      .tz(new Date(), "America/Sao_Paulo")
+      .format("YYYY/MM/DD HH:mm:mm");
+
+    let find = await global.dbConnection.query(
+      `SELECT 
+    "payable"."id", 
+    "payable"."status", 
+    "payable"."net_value",
+    "ambient"."antecipate_fee"
+   FROM "payables" AS "payable" 
+   INNER JOIN "transactions" as "transaction" ON "transaction"."id" = "payable"."id_transaction"
+   INNER JOIN "users" as "user" ON "user"."id" = "transaction"."id_user"
+   INNER JOIN "ambients" as "ambient" ON "ambient"."id" = "user"."id_ambient"
+   WHERE "payable"."guid" = '${guid}'
+   `,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+
+    if (!find.length) {
+      throwRefuse401(res, `Não foi encontrado Pagável com guid "${guid}".`);
+      return;
+    }
+
+    find = find[0];
+
+    if (find.status !== global.WAITING_FUNDS) {
+      throwRefuse401(
+        res,
+        `Pagável não encontra-se disponível para antecipação.`
+      );
+      return;
+    }
+
+    const beforeValue = find.net_value;
+    const feeValue = (find.antecipate_fee / 100) * beforeValue;
+    const refundNetValue = beforeValue - feeValue;
+
+    const newPaid = await controllerPaid.create({
+      id_payable: find.id,
+      paidDate: now,
+      paid_value: refundNetValue,
+      antecipate: true
+    });
+
+    find.status = global.PAID_ANTECIPATE;
+
+    const result = prepareSuccess200({
+      paid_guid: newPaid.data.guid,
+      status: find.status,
+      paid_date: newPaid.data.paid_date,
+      before_value: beforeValue,
+      discounted_value: feeValue,
+      refunded_value: refundNetValue
+    });
+    res.json(result);
   };
 }
 

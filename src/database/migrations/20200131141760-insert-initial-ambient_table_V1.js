@@ -6,7 +6,8 @@ module.exports = {
       {
         createdAt: new Date(),
         updatedAt: new Date(),
-        name: "ROOT"
+        name: "ROOT",
+        antecipate_fee: 1
       }
     ]);
   },

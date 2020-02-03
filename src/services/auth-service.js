@@ -11,11 +11,11 @@ exports.decodeToken = async token => {
 };
 
 exports.authorize = async (req, res, next) => {
-  await processAuthorize(req, res, next, false);
+  return await processAuthorize(req, res, next, false);
 };
 
 exports.authorizeOnlyAdmin = async (req, res, next) => {
-  await processAuthorize(req, res, next, true);
+  return await processAuthorize(req, res, next, true);
 };
 
 const processAuthorize = async (req, res, next, onlyAdmin) => {
@@ -25,7 +25,8 @@ const processAuthorize = async (req, res, next, onlyAdmin) => {
   if (!token) {
     res.status(401).json({ status: 401, message: "Acesso Restrito." });
   } else {
-    jwt.verify(token, global.SALT_KEY, function(error, decoded) {
+    let result = undefined;
+    await jwt.verify(token, global.SALT_KEY, function(error, decoded) {
       if (error) {
         res
           .status(401)
@@ -36,9 +37,17 @@ const processAuthorize = async (req, res, next, onlyAdmin) => {
           return;
         }
 
-        next();
+        if (!next) {
+          result = {
+            username: decoded.username,
+            user_admin: decoded.user_admin
+          };
+        } else {
+          next();
+        }
       }
     });
+    return result;
   }
 };
 

@@ -29,15 +29,16 @@ class ControllerPaid {
   handleCreate = async (req, res) => {
     let { id_payable, paid_date, paid_value } = req.body;
     const result = await this.create({
-      id_payable,
-      paid_date,
-      paid_value
+      id_payable: id_payable,
+      paid_date: paid_date,
+      paid_value: paid_value,
+      atencipate: false
     });
 
     res.json(result);
   };
 
-  create = async ({ id_payable, paidDate, paid_value }) => {
+  create = async ({ id_payable, paidDate, paid_value, antecipate = false }) => {
     const guid = uuidv4();
     const findPayable = await payable.findOne({
       where: {
@@ -50,7 +51,12 @@ class ControllerPaid {
       return;
     }
 
-    const date = moment(paidDate).format("YYYY-MM-DD");
+    if (!paidDate)
+      paidDate = moment
+        .tz(new Date(), "America/Sao_Paulo")
+        .format("YYYY/MM/DD HH:mm:ss");
+
+    const date = moment(paidDate).format("YYYY-MM-DD HH:mm:ss");
     const newPaid = await paid.create({
       guid: guid,
       id_payable: id_payable,
@@ -58,8 +64,7 @@ class ControllerPaid {
       paid_value: paid_value
     });
 
-    const status =
-      paid_value >= findPayable.net_value ? global.PAID : global.WAITING_FUNDS;
+    const status = antecipate ? global.PAID_ANTECIPATE : global.PAID;
     newPaid.status = status;
     await payable.update(
       {
