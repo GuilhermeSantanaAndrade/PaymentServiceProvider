@@ -6,6 +6,7 @@ import PaymentType from "../models/PaymentType.js";
 import Transaction from "../models/Transaction.js";
 import Payable from "../models/Payable.js";
 import Paid from "../models/Paid.js";
+import ServiceRequest from "../models/ServiceRequest.js";
 
 const connection = new Sequelize(dbConfig);
 User.init(connection);
@@ -14,6 +15,7 @@ PaymentType.init(connection);
 Transaction.init(connection);
 Payable.init(connection);
 Paid.init(connection);
+ServiceRequest.init(connection);
 
 global.dbConnection = connection;
 export default connection;

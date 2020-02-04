@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/GuilhermeSantanaAndrade/PaymentServiceProvider#readme",
   "dependencies": {
+    "@hapi/joi": "^17.1.0",
     "chai": "^4.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

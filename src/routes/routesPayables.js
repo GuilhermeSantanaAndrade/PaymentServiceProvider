@@ -4,10 +4,11 @@ import { Router } from "express";
 import ControllerPayable from "../controllers/controllerPayable";
 import { throwError, throwRefuse401 } from "../utils/responses_struct";
 import authService from "../services/auth-service";
+import input from "./routesPayables.schema";
 
 const routes = Router();
 
-routes.get("/", async (req, res, next) => {
+routes.get("/", input.validateGET1, async (req, res, next) => {
   try {
     const loggedUser = await authService.authorize(req, res, undefined);
     const usernameToFilter = req.query.username;
@@ -32,7 +33,7 @@ routes.get("/", async (req, res, next) => {
   }
 });
 
-routes.get("/funds", async (req, res) => {
+routes.get("/funds", input.validateGET1, async (req, res) => {
   try {
     const loggedUser = await authService.authorize(req, res, undefined);
     const usernameToFilter = req.query.username;
@@ -67,15 +68,20 @@ routes.get("/funds", async (req, res) => {
   }
 });
 
-routes.get("/:guid", authService.authorize, async (req, res, next) => {
-  try {
-    await ControllerPayable.findOne(req, res);
-  } catch (err) {
-    throwError(res, err);
+routes.get(
+  "/:guid",
+  authService.authorize,
+  input.validateGET2,
+  async (req, res, next) => {
+    try {
+      await ControllerPayable.findOne(req, res);
+    } catch (err) {
+      throwError(res, err);
+    }
   }
-});
+);
 
-routes.post("/:guid/antecipate", async (req, res) => {
+routes.post("/:guid/antecipate", input.validatePOST1, async (req, res) => {
   try {
     await ControllerPayable.antecipate(req, res);
   } catch (err) {

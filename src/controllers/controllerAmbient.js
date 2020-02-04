@@ -10,12 +10,11 @@ class ControllerAmbient {
   };
 
   findOne = async (req, res) => {
-    const query = req.query.id;
-    const params = req.params.id;
+    const id = req.params.id;
 
     const find = await ambient.findOne({
       where: {
-        id: query || params
+        id: id
       }
     });
 
