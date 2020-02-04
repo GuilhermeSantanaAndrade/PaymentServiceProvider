@@ -5,7 +5,7 @@ import ControllerTransaction from "../controllers/controllerTransaction";
 import ControllerServiceRequest from "../controllers/controllerServiceRequest";
 import { throwError, throwRefuse401 } from "../utils/responses_struct";
 import authService from "../services/auth-service";
-import input from "./routesTransactions.schema";
+import input from "./schemas/routesTransactions.schema";
 
 const routes = Router();
 

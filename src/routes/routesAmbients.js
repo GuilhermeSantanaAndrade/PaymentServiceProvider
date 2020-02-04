@@ -4,7 +4,7 @@ import { Router } from "express";
 import ControllerAmbient from "../controllers/controllerAmbient";
 import { throwError } from "../utils/responses_struct";
 import authService from "../services/auth-service";
-import input from "./routesAmbients.schema";
+import input from "./schemas/routesAmbients.schema";
 
 const routes = Router();
 

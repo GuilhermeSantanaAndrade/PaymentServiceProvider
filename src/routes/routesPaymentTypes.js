@@ -4,7 +4,7 @@ import { Router } from "express";
 import ControllerPaymentType from "../controllers/controllerPaymentType";
 import { throwError } from "../utils/responses_struct";
 import authService from "../services/auth-service";
-import input from "./routesPaymentTypes.schema";
+import input from "./schemas/routesPaymentTypes.schema";
 
 const routes = Router();
 

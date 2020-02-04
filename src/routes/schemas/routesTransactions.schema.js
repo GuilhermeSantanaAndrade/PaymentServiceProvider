@@ -1,5 +1,5 @@
 import Joi from "@hapi/joi";
-import { throwRefuse401 } from "../utils/responses_struct";
+import { throwRefuse401 } from "../../utils/responses_struct";
 
 exports.validateGET1 = async (req, res, next) => {
   const obj = Joi.object({

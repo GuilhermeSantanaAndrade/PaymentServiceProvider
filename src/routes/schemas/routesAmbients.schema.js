@@ -1,7 +1,7 @@
 import Joi from "@hapi/joi";
-import { throwRefuse401 } from "../utils/responses_struct";
+import { throwRefuse401 } from "../../utils/responses_struct";
 
-exports.validateGET1 = async (req, res, next) => {
+exports.validateGET2 = async (req, res, next) => {
   const obj = Joi.object({
     id: Joi.integer().required()
   });
@@ -18,21 +18,14 @@ exports.validateGET1 = async (req, res, next) => {
 
 exports.validatePOST1 = async (req, res, next) => {
   const obj = Joi.object({
-    description: Joi.string()
-      .min(1)
-      .max(50)
-      .required(),
-    str_code: Joi.string()
-      .min(1)
-      .max(30)
-      .required(),
-    days_refund: Joi.integer()
-      .min(0)
-      .required(),
-    fee: Joi.number()
+    name: Joi.string()
+      .required()
+      .min(3)
+      .max(255),
+    antecipate_fee: Joi.number()
+      .required()
       .min(0)
       .max(100)
-      .required()
   });
 
   let input = req.body;

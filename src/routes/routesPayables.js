@@ -4,7 +4,7 @@ import { Router } from "express";
 import ControllerPayable from "../controllers/controllerPayable";
 import { throwError, throwRefuse401 } from "../utils/responses_struct";
 import authService from "../services/auth-service";
-import input from "./routesPayables.schema";
+import input from "./schemas/routesPayables.schema";
 
 const routes = Router();
 
