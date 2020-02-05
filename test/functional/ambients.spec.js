@@ -50,7 +50,7 @@ describe("Ambientes", () => {
       response.statusCode,
       200,
       `Não veio statusCode 200 (POST:/ambients) - ${
-        JSON.parse(response.text).message
+      JSON.parse(response.text).message
       }`
     );
 
@@ -82,7 +82,7 @@ describe("Ambientes", () => {
         response.statusCode,
         200,
         `Não veio statusCode 200 (POST:/ambients) - ${
-          JSON.parse(response.text).message
+        JSON.parse(response.text).message
         }`
       );
 

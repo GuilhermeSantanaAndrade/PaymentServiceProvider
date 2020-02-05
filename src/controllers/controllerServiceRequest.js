@@ -1,5 +1,5 @@
 import service_request from "../models/ServiceRequest";
-import { prepareSuccess200, throwRefuse401 } from "../utils/responses_struct";
+import { prepareSuccess200, throwRefuse401, throwError } from "../utils/responses_struct";
 import moment from "moment";
 import Sequelize from "sequelize";
 

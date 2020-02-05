@@ -10,7 +10,7 @@ const uuidv4 = require("uuid/v4");
 const assert = chai.assert;
 chai.use(chaiHttp);
 
-describe("Tipos de Pagamento", () => {
+describe("Pagáveis", () => {
   before(async () => {
     // GET ACCESS-TOKEN FOR ALL TESTs
     const password = "ROOT";
@@ -40,7 +40,7 @@ describe("Tipos de Pagamento", () => {
       response.statusCode,
       200,
       `Não veio statusCode 200 (GET:/payables) - ${
-        JSON.parse(response.text).message
+      JSON.parse(response.text).message
       }`
     );
 
@@ -60,7 +60,7 @@ describe("Tipos de Pagamento", () => {
       response.statusCode,
       200,
       `Não veio statusCode 200 (GET:/payables/funds) - ${
-        JSON.parse(response.text).message
+      JSON.parse(response.text).message
       }`
     );
 
@@ -94,7 +94,7 @@ describe("Tipos de Pagamento", () => {
       response.statusCode,
       401,
       `Não veio statusCode 200 (POST:/payables/${guid}/antecipate) - ${
-        JSON.parse(response.text).message
+      JSON.parse(response.text).message
       }`
     );
 
