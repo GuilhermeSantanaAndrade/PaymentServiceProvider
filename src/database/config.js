@@ -1,5 +1,5 @@
 const envs = require("dotenv").config({
-  path: global.AUTO_TEST ? ".env.test" : ".env.production"
+  path: global.AUTO_TEST ? ".env.test" : ".env"
 });
 
 module.exports = {

@@ -25,7 +25,7 @@ exports.validatePOST1 = async (req, res, next) => {
 
 exports.validateGET1 = async (req, res, next) => {
   const obj = Joi.object({
-    id: Joi.integer().required()
+    id: Joi.number().required()
   });
 
   let input = req.params;

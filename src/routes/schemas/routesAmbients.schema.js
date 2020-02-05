@@ -3,7 +3,7 @@ import { throwRefuse401 } from "../../utils/responses_struct";
 
 exports.validateGET2 = async (req, res, next) => {
   const obj = Joi.object({
-    id: Joi.integer().required()
+    id: Joi.number().required()
   });
 
   let input = req.params;

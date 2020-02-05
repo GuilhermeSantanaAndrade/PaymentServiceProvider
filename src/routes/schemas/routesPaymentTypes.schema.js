@@ -3,7 +3,7 @@ import { throwRefuse401 } from "../../utils/responses_struct";
 
 exports.validateGET1 = async (req, res, next) => {
   const obj = Joi.object({
-    id: Joi.integer().required()
+    id: Joi.number().required()
   });
 
   let input = req.params;
@@ -26,7 +26,7 @@ exports.validatePOST1 = async (req, res, next) => {
       .min(1)
       .max(30)
       .required(),
-    days_refund: Joi.integer()
+    days_refund: Joi.number()
       .min(0)
       .required(),
     fee: Joi.number()

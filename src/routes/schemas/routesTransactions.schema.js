@@ -39,10 +39,10 @@ exports.validateGET2 = async (req, res, next) => {
 exports.validatePOST1 = async (req, res, next) => {
   const obj = Joi.object({
     service_id: Joi.string()
-      .integer()
+      .number()
       .length(10)
       .required(),
-    id_user: Joi.integer().required(),
+    id_user: Joi.number().required(),
     external_sale_id: Joi.string()
       .required()
       .max(30),
