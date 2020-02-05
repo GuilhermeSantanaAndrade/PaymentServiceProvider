@@ -1,11 +1,10 @@
 import app from "./app";
-import dbConnection from "./database/db.js";
 import controllerPayable from "./controllers/controllerPayable";
 import controllerPaid from "./controllers/controllerPaid";
 import controllerServiceRequest from "./controllers/controllerServiceRequest";
 
 const PORT = process.env.PORT || 3333;
-app.listen(PORT, () => {
+export default app.listen(PORT, () => {
   console.log(`Servidor ON (Porta ${PORT})`);
 });
 

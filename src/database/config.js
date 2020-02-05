@@ -1,8 +1,6 @@
 const envs = require("dotenv").config({
-  path: ".env"
+  path: global.AUTO_TEST ? ".env.test" : ".env"
 });
-
-console.log(envs);
 
 module.exports = {
   dialect: process.env.DATABASE_DIALECT,
@@ -14,5 +12,6 @@ module.exports = {
   define: {
     timestamps: true,
     underscored: false
-  }
+  },
+  logging: false
 };

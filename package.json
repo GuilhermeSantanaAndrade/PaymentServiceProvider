@@ -4,8 +4,8 @@
   "description": "Simplified Payment Service Provider",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive",
-    "tdd": "mocha --recursive --watch",
+    "test": "mocha -r sucrase/register --recursive",
+    "tdd": "mocha -r sucrase/register --recursive --watch",
     "start": "sucrase-node ./src/server.js",
     "dev": "nodemon ./src/server.js --ignore test",
     "sequelize-create": "sequelize db:create",
@@ -26,6 +26,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.0",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -39,6 +40,7 @@
     "sequelize": "^5.21.3",
     "sequelize-cli": "^5.5.1",
     "sucrase": "^3.12.1",
+    "sucrase-register": "^1.0.2",
     "uuid": "^3.4.0"
   }
 }

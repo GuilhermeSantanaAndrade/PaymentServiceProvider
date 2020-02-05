@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import variables from "dotenv";
 import global from "./globals";
+import dbConnection from "./database/db.js";
 
 variables.config({
   path: ".env"
