@@ -59,6 +59,8 @@ key: ROOT (obs: Importante ressaltar que no authenticate a KEY deve ser passada 
 
 Então para equivaler a palavra ROOT usar: Uk9PVA==
 
+O TOKEN retornado deve ser colocado hos headers das demais requisições na propriedade: x-access-token
+
 # Rotas disponíveis
 A grande maioria das rotas exigem TOKEN para serem utilizadas.
 
