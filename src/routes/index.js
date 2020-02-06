@@ -14,7 +14,7 @@ mainRoutes.use("/ambients", routesAmbients);
 mainRoutes.use("/payment_types", routesPaymentTypes);
 mainRoutes.get("/", (req, res, next) => {
   res.send(
-    "Bem vindo! Siga o documentação da API em https://github.com/GuilhermeSantanaAndrade/PaymentServiceProvider"
+    "Bem vindo! Siga a documentação da API em https://github.com/GuilhermeSantanaAndrade/PaymentServiceProvider"
   );
 });
 
