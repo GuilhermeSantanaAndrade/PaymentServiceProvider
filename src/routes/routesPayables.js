@@ -8,6 +8,8 @@ import input from "./schemas/routesPayables.schema";
 
 const routes = Router();
 
+// Usuário ADMIN pode ver todos pagáveis, sendo dele ou não.
+// Usuário NOT-ADMIN só pode ver pagáveis filtrando ele próprio no query params
 routes.get("/", input.validateGET1, async (req, res, next) => {
   try {
     const loggedUser = await authService.authorize(req, res, undefined);

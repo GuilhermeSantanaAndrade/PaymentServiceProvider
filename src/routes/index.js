@@ -12,5 +12,10 @@ mainRoutes.use("/payables", routesPayables);
 mainRoutes.use("/users", routesUsers);
 mainRoutes.use("/ambients", routesAmbients);
 mainRoutes.use("/payment_types", routesPaymentTypes);
+mainRoutes.get("/", (req, res, next) => {
+  res.send(
+    "Bem vindo! Siga o documentação da API em https://github.com/GuilhermeSantanaAndrade/PaymentServiceProvider"
+  );
+});
 
 export default mainRoutes;
